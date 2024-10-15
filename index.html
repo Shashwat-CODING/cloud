@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Search Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #start-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Voice Search</h1>
+    <button id="start-btn">Start Voice Search</button>
+    <p id="result"></p>
+
+    <script>
+        const startBtn = document.getElementById('start-btn');
+        const result = document.getElementById('result');
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+
+        recognition.continuous = false; // Stops automatically after a phrase
+        recognition.interimResults = false; // No interim results
+
+        recognition.onstart = () => {
+            console.log('Voice recognition started. Speak into the microphone.');
+        };
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            result.textContent = `You said: ${transcript}`;
+            console.log(transcript);
+            // Here you can add code to handle the search query
+        };
+
+        recognition.onerror = (event) => {
+            console.error(`Error occurred in recognition: ${event.error}`);
+        };
+
+        startBtn.addEventListener('click', () => {
+            recognition.start();
+        });
+    </script>
+</body>
+</html>
